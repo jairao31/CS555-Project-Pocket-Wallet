@@ -1,0 +1,19 @@
+{
+  "name": "pocket-wallet-backend",
+  "version": "1.0.0",
+  "description": "This is a server for pocket-wallet",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jairao31/CS555-Project-Pocket-Wallet.git"
+  },
+  "author": "Pratiksha, Atharva, Pratik, Ananya, Ritwik, Jayveer, Jaiganesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jairao31/CS555-Project-Pocket-Wallet/issues"
+  },
+  "homepage": "https://github.com/jairao31/CS555-Project-Pocket-Wallet#readme"
+}
