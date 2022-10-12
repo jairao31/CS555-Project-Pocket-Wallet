@@ -4,6 +4,7 @@
   "description": "This is a server for pocket-wallet",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/jairao31/CS555-Project-Pocket-Wallet/issues"
   },
-  "homepage": "https://github.com/jairao31/CS555-Project-Pocket-Wallet#readme"
+  "homepage": "https://github.com/jairao31/CS555-Project-Pocket-Wallet#readme",
+  "dependencies": {
+    "mongodb": "^4.10.0",
+    "nodemon": "^2.0.20"
+  }
 }
