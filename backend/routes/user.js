@@ -41,4 +41,37 @@ router.get("/searchByUserName", async (req, res) => {
   }
 });
 
+// "searchByFirstName" router calling "userCollection"
+router.get("/searchByFirstName", async (req, res) => {
+  try {
+    const { firstName } = req.body;
+    if (!firstName) {
+      res.status(400).json({ error: "Please provide a firstName" });
+      return;
+    }
+    if (typeof firstName !== "string") {
+      res.status(400).json({ error: "Invalid request" });
+      return;
+    }
+    userCollection()
+      .orderByChild("firstName")
+      .equalTo(firstName)
+      .once("value", (snapshot) => {
+        let result = [];
+        for (var key in snapshot.val()) {
+          result.push({ id: key, ...snapshot.val()[key] });
+        }
+        if (result.length === 0) {
+          res.json(
+            "Sorry! No user found with " + firstName + " first name. Try Again!"
+          );
+          return;
+        }
+        res.json(result);
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message ? error.messsage : error });
+  }
+});
+
 module.exports = router;
