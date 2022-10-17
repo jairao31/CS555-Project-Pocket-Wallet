@@ -4,7 +4,7 @@
   "description": "This is a server for pocket-wallet",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,12 @@
   },
   "homepage": "https://github.com/jairao31/CS555-Project-Pocket-Wallet#readme",
   "dependencies": {
-    "mongodb": "^4.10.0",
-    "nodemon": "^2.0.20"
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "firebase": "^9.12.1",
+    "firebase-admin": "^11.1.0",
+    "uuid": "^9.0.0"
   }
 }
