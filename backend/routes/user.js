@@ -74,4 +74,34 @@ router.get("/searchByFirstName", async (req, res) => {
   }
 });
 
+router.get("/logout/:userId", async (req, res) => {
+  const { userId } = req.params;
+  if (!userId) {
+    res.status(400).json({ error: "Please provide a userId" });
+    return;
+  }
+  userCollection(userId).once("value", (snapshot) => {
+    try {
+      if (!snapshot.val()) {
+        res.json("No username found");
+        return;
+      } else {
+        if (snapshot.val()) {
+          userCollection(userId).update({ isActive: false }, (error) => {
+            if (error) {
+              res.status(500).json("could not logout");
+            } else {
+              res.json("logged out successfully!");
+            }
+          });
+        }
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message ? error.messsage : error });
+      console.log(error);
+      return;
+    }
+  });
+});
+
 module.exports = router;
