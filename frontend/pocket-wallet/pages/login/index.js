@@ -1,4 +1,3 @@
-
 import {
   Box,
   Text,
@@ -24,49 +23,57 @@ import RegisterForm from "../../Components/Register/RegisterForm";
 import LoginForm from "../../Components/Login/LoginForm";
 import { UserContext } from "../../Components/Contexts/UserContext";
 
-
 export default function Login() {
   const { colorMode, toggleColorMode } = useColorMode();
   // const router = useRouter();
   const isDark = colorMode === "dark";
   const colors = useColorModeValue(
-    ['red.50', 'teal.50'],
-    ['red.100', 'teal.100'],
-  )
-  const [tabIndex, setTabIndex] = React.useState(0)
-  const bg = colors[tabIndex]
+    ["red.50", "teal.50"],
+    ["red.100", "teal.100"]
+  );
+  const [tabIndex, setTabIndex] = React.useState(0);
+  const bg = colors[tabIndex];
 
-  const {UserDetails} = useContext(UserContext)
+  const { UserDetails } = useContext(UserContext);
 
-    const {push} = useRouter()
+  const { push } = useRouter();
 
-    useEffect(() => {
-      if(UserDetails) push('/')
-    },[UserDetails])
+  useEffect(() => {
+    if (UserDetails) push("/");
+  }, [UserDetails]);
 
   return (
-
-    <Flex h={'100vh'}>
-      <Flex w={'45%'} bg={'#00a88f'} direction={'column'} justifyContent='center'>
-        <Flex p='0 50px' justifyContent={'center'}>
+    <Flex h={"100vh"} style={{ justifyContent: "center" }}>
+      {/* <Flex
+        w={"45%"}
+        bg={"#00a88f"}
+        direction={"column"}
+        justifyContent="center"
+      >
+        <Flex p="0 50px" justifyContent={"center"}>
           <Box>
-            <Text fontWeight={800} color='white' fontSize={'4xl'}>
-              T<span style={{fontSize:'25px',color:'black'}}>eam</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              T<span style={{ fontSize: "25px", color: "black" }}>eam</span>
             </Text>
-            <Text fontWeight={800} color='white' fontSize={'4xl'} >
-              U<span style={{fontSize:'25px',color:'black'}}>p {' &'}</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              U
+              <span style={{ fontSize: "25px", color: "black" }}>p {" &"}</span>
             </Text>
-            <Text fontWeight={800} color='white' fontSize={'4xl'}>
-              L<span style={{fontSize:'25px',color:'black'}}>ets</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              L<span style={{ fontSize: "25px", color: "black" }}>ets</span>
             </Text>
-            <Text fontWeight={800} color='white' fontSize={'4xl'}>
-              S<span style={{fontSize:'25px',color:'black'}}>ynergize</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              S
+              <span style={{ fontSize: "25px", color: "black" }}>ynergize</span>
             </Text>
-            <Text fontWeight={800} color='white' fontSize={'4xl'}>
-              E<span style={{fontSize:'25px',color:'black'}}>verything for</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              E
+              <span style={{ fontSize: "25px", color: "black" }}>
+                verything for
+              </span>
             </Text>
-            <Text fontWeight={800} color='white' fontSize={'4xl'}>
-              E<span style={{fontSize:'25px',color:'black'}}>veryone</span>
+            <Text fontWeight={800} color="white" fontSize={"4xl"}>
+              E<span style={{ fontSize: "25px", color: "black" }}>veryone</span>
             </Text>
           </Box>
           <Image
@@ -76,43 +83,52 @@ export default function Login() {
             alt='login_image'
           />
         </Flex>
-      </Flex>
-      <Flex direction={'column'} justifyContent='center' w={'55%'}>
-        <Box 
-          mx={'auto'}
-          mt='auto'
-          mb='20px'
-            boxShadow='md'
-            w="385px"
-            p={3}
-            rounded="lg"
-          >
-          <Tabs  variant={"solid-rounded"} isFitted m={4}>
+      </Flex> */}
+      <Flex direction={"column"} justifyContent="center" w={"55%"}>
+        <Box
+          mx={"auto"}
+          mt="auto"
+          mb="20px"
+          boxShadow="md"
+          w="385px"
+          p={3}
+          rounded="lg"
+        >
+          <Tabs variant={"solid-rounded"} isFitted m={4}>
             <TabList gap={2} mb={2}>
-              <Tab _selected={{ color: 'white', bg: 'brand.700' }} boxShadow={'md'}>Sign Up</Tab>
-              <Tab _selected={{ color: 'white', bg: 'brand.700' }} boxShadow={'md'} >Login</Tab>
+              <Tab
+                _selected={{ color: "white", bg: "brand.700" }}
+                boxShadow={"md"}
+              >
+                Sign Up
+              </Tab>
+              <Tab
+                _selected={{ color: "white", bg: "brand.700" }}
+                boxShadow={"md"}
+              >
+                Login
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
-                <RegisterForm/>
+                <RegisterForm />
               </TabPanel>
               <TabPanel>
                 <LoginForm />
               </TabPanel>
             </TabPanels>
           </Tabs>
-          </Box>
-        <HStack 
-          mb='auto'   
+        </Box>
+        <HStack
+          mb="auto"
           w="385px"
-          mx='auto'
-          justifyContent={'center'}
-          mt='20px'
+          mx="auto"
+          justifyContent={"center"}
+          mt="20px"
         >
-          <Link href='/team'>Made with ❤️ by CodeBrewers</Link>
+          <Link href="/#">Made with ❤️ by Pocket Wallet (Team 13)</Link>
         </HStack>
       </Flex>
     </Flex>
-
   );
 }
