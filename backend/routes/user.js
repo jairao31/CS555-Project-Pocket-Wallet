@@ -7,7 +7,6 @@ const { transactionCollection } = require("../data/Refs");
 //const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
 //const { getDatabase } = require("firebase-admin/database");
 //const { ref, child, get } = require("firebase/database");
-
 // "isPassword" function used to check pass
 function isPassword(str) {
   if (!str) throw `Password must be provided`;
@@ -18,14 +17,12 @@ function isPassword(str) {
   let strippedStr = str.toLowerCase().trim().replace(/\s+/g, "");
   if (strippedStr.length < 6) throw `Password must be at least six characters`;
 }
-
 // "SIGNUP" Router calling "CreateUser"
 router.post("/signup", async (req, res) => {
   try {
     //const { publicId, password, firstName, lastName, email, profilePhotoUrl, type } = req.body;
     const { name, email, password, phone, children, wallet, userName } =
       req.body;
-
     isPassword(password);
     const userData = {
       name: name,
@@ -78,7 +75,6 @@ router.post("/signup", async (req, res) => {
     res.status(500).json({ error: error.message ? error.messsage : error });
   }
 });
-
 // "searchByUserName" router calling "userCollection"
 router.get("/searchByUserName", async (req, res) => {
   try {
@@ -111,7 +107,6 @@ router.get("/searchByUserName", async (req, res) => {
     res.status(500).json({ error: error.message ? error.messsage : error });
   }
 });
-
 // "searchByFirstName" router calling "userCollection"
 router.get("/searchByFirstName", async (req, res) => {
   try {
