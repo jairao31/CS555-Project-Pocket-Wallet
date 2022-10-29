@@ -24,3 +24,23 @@ router.get("/getIdByName/:name", async (req, res) => {
         }
       );
 });
+router.get("/getChildExpense/:id", async (req, res) => {
+  let childId = req.params.id;
+  var lstOfTransaction = [];
+
+  const transactionRef = transactionCollection();
+  transactionRef.get().then(snapshot => {
+      for (let key in snapshot.val()) {
+  
+          if (snapshot.val()[key]["receiver_id"] === childId) {
+            lstOfTransaction.push(snapshot.val()[key]);
+          }
+      }
+
+      res.send(lstOfTransaction);
+  })
+
+})
+
+
+module.exports = router;
