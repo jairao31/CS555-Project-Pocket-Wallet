@@ -24,6 +24,26 @@ router.get("/getIdByName/:name", async (req, res) => {
         }
       );
 });
+router.get("/getUserById/:id", async (req, res) => {
+  userId = req.params.id;
+
+  userCollection(userId).once("value", (snapshot) => {
+      try {
+        if (!snapshot.val()) {
+          res.json("No username found");
+          return;
+        } else {
+          if (snapshot.val()) {
+            res.json(snapshot.val());
+          }
+        }
+      } catch (error) {
+        res.status(500).json({ error: error.message ? error.messsage : error });
+        console.log(error);
+        return;
+      }
+    });
+})
 router.get("/getChildExpense/:id", async (req, res) => {
   let childId = req.params.id;
   var lstOfTransaction = [];
