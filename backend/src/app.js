@@ -17,7 +17,7 @@ var serviceAccount = require('../service_account.json');
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   // The database URL depends on the location of the database
-  databaseURL: "https://pocket-wallet-12969-default-rtdb.firebaseio.com/"
+  databaseURL: "https://temp-ac2ca-default-rtdb.firebaseio.com"
 });
 
 // const session = require('express-session');

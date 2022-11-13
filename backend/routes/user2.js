@@ -117,4 +117,101 @@ export const getTransactionByFilter = (uid, filter, successFn, errorFn) => {
   }
 };
 
+export const parentResponseToChildRequest = async (transactionId, toBeState, amount, successFn, errorFn) => {
+
+  const db = fire.firestore();
+
+  try{
+    if(toBeState == 'Accept'){
+  
+      await db.collection("transactions").doc(transactionId).get().then(async (reso)=>{
+        if (reso.exists) {
+          //console.log("Document data:", reso.data().receiver_id);
+          let currWallet = 0;
+          let userId = reso.data().receiver_id;
+          await db.collection("users").doc(userId).get().then(async (resp) =>{
+            //console.log("Document data:", resp.data().wallet);
+            currWallet = resp.data().wallet;
+            if(currWallet >= amount){
+              console.log("Document data:", currWallet);
+              currWallet -= amount;
+              await db.collection("users").doc(userId).update({
+                wallet : currWallet
+              })
+              .catch((err) => errorFn(err));
+            }else{
+              throw "Not enough money!";
+            }
+          })
+          
+      }
+      });
+  
+      db.collection("transactions")
+        .doc(transactionId)
+        .update({
+          state: "Done",
+        })
+        .catch((err) => errorFn(err));
+      successFn("Done!");
+    }else{
+      db.collection("transactions")
+        .doc(transactionId)
+        .update({
+          state: "Denied",
+        })
+        .catch((err) => errorFn(err));
+      successFn("Done!");
+    }  
+  }catch(e){
+    throw "Something went wrong!";
+  }
+  
+};
+
+//func to create a child for logged parent
+//func need some changes, after child is created, the child gets logged in.
+export const createChild = (
+  { email, password, fullName, parentId },
+  successFn,
+  errorFn
+) => {
+  //Random Number Gen Logic between 1 to 9 for DP
+  const db = fire.firestore();
+  //Firebase Authentication Signup
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      db.collection("users")
+        .doc(parentId)
+        .update({
+          children: firebase1.firestore.FieldValue.arrayUnion(
+            firebase.auth().currentUser.uid
+          ),
+        })
+        .then(() => {
+          //add child to the collection.
+          const childData = {
+            name: fullName,
+            email: email,
+            children: [],
+            wallet: 0,
+          };
+
+          db.collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .set({ id: firebase.auth().currentUser.uid, ...childData })
+            .then(() => {
+              console.log("Pushed to Firestore");
+            })
+            .catch((er) => console.log(er));
+        })
+        .catch((er) => console.log(er));
+    })
+    .catch(function (error) {
+      console.log(error);
+      errorFn(error);
+    });
+};
 module.exports = router;
