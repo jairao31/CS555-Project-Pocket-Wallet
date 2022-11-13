@@ -4,19 +4,45 @@ const router = express.Router();
 const { v4 } = require("uuid");
 const { storage } = require("../data/firebase");
 const { transactionCollection } = require("../data/Refs");
-//const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
-//const { getDatabase } = require("firebase-admin/database");
-//const { ref, child, get } = require("firebase/database");
+const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+const { getDatabase } = require("firebase-admin/database");
+const { ref, child, get } = require("firebase/database");
+import fire from "./fire";
+
+//Get All Notification for User
+export const getNotif = (email, successFn, errorFn) => {
+  const db = fire.firestore();
+  //console.log(email);
+  db.collection("notif")
+    .where("private", "==", true)
+    .where("user", "==", email)
+    .orderBy("timestamp", "desc")
+    .get()
+    .then((res1) => {
+      db.collection("notif")
+        .where("private", "==", false)
+        .orderBy("timestamp", "desc")
+        .get()
+        .then((res2) => {
+          let Arr = [];
+          res1.forEach((doc1) => {
+            Arr.push({ ...doc1.data(), ["id"]: doc1.id });
+          });
+          console.log(Arr);
+
+          res2.forEach((doc2) => {
+            Arr.push(doc2.data());
+          });
+          console.log(Arr);
+
+          successFn(Arr);
+        })
+        .catch((err) => errorFn(err));
+    })
+    .catch((err) => errorFn(err));
+}; 
 // "isPassword" function used to check pass
-function isPassword(str) {
-  if (!str) throw `Password must be provided`;
-  if (typeof str != "string") throw `Password must be a string`;
-  if (str.trim().length == 0) throw `Password cannot just be empty spaces`;
-  if (str.toLowerCase().trim() != str.toLowerCase().trim().replace(/\s+/g, ""))
-    throw `Password cannot have spaces`;
-  let strippedStr = str.toLowerCase().trim().replace(/\s+/g, "");
-  if (strippedStr.length < 6) throw `Password must be at least six characters`;
-}
+
 // "SIGNUP" Router calling "CreateUser"
 router.post("/signup", async (req, res) => {
   try {
@@ -170,35 +196,35 @@ router.get("/logout/:userId", async (req, res) => {
   });
 });
 
-router.post("/requestMoney", async (req, res) => {
-  const { sender_id, receiver_id, amount, state, tag } = req.body;
+// router.post("/requestMoney", async (req, res) => {
+//   const { sender_id, receiver_id, amount, state, tag } = req.body;
 
-  transactionData = {
-    id: v4(),
-    sender_id: sender_id,
-    receiver_id: receiver_id,
-    amount: amount,
-    timestamp: new Date(),
-    state: state,
-    tag: tag,
-  };
-  console.log(transactionData["id"]);
-  transactionCollection()
-    .orderByChild("id")
-    .equalTo(transactionData["id"])
-    .once("value", (snapshot) => {
-      transactionCollection(transactionData["id"]).set(
-        transactionData,
-        (error) => {
-          if (error) {
-            res.status(500).json({ error: " Money could not be requested!" });
-          } else {
-            res.json(transactionData);
-          }
-        }
-      );
-    });
-});
+//   transactionData = {
+//     id: v4(),
+//     sender_id: sender_id,
+//     receiver_id: receiver_id,
+//     amount: amount,
+//     timestamp: new Date(),
+//     state: state,
+//     tag: tag,
+//   };
+//   console.log(transactionData["id"]);
+//   transactionCollection()
+//     .orderByChild("id")
+//     .equalTo(transactionData["id"])
+//     .once("value", (snapshot) => {
+//       transactionCollection(transactionData["id"]).set(
+//         transactionData,
+//         (error) => {
+//           if (error) {
+//             res.status(500).json({ error: " Money could not be requested!" });
+//           } else {
+//             res.json(transactionData);
+//           }
+//         }
+//       );
+//     });
+// });
 
 router.post("/splitMoney", async (req, res) => {
   const { sender_id, receiver_ids, amount, timestamp, state, tag } = req.body;
