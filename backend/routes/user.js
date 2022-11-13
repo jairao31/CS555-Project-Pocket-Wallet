@@ -445,9 +445,41 @@ export const getAllUser = async () => {
     return i.data();
   });
 };
-// const d1 = await getAllUser();
-// console.log("===="+d1)
-// getAllUser().then((data)=>{
-//   console.log("===="+data)
-// })
+export const getTransactionsById = async (pId) => {
+  const db = fire.firestore();
+  let data = await db.collection("transactions").get();
+
+  let res = [];
+  data.docs.forEach((i) => {
+    console.log("data:--------- " + pId);
+    if (i.data().receiver_id === pId && i.data().state === "Pending") {
+      res.push({...i.data(), id: i.id});
+    }
+  });
+  // console.log("res", res);
+  return res;
+};
+
+//Updating Document in FB Firestore
+export const updateUserData = (
+  uid,
+  { email, fullName, profilePic, address },
+  successFn,
+  errorFn
+) => {
+  const db = fire.firestore();
+  db.collection("users")
+    .doc(uid)
+    .set(
+      {
+        email,
+        fullName,
+        profilePic,
+        address,
+      },
+      { merge: true }
+    )
+    .then(successFn)
+    .catch((err) => errorFn(err));
+};
 module.exports = router;
