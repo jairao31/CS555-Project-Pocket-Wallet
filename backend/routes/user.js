@@ -408,4 +408,46 @@ router.get("/parent/pending/:id", async (req, res) => {
     }
   );
 });
+//Function to get all user data
+export const getUserData = (uid, successFn, errorFn) => {
+  const db = fire.firestore();
+  db.collection("users")
+    .doc(uid)
+    .get()
+    .then((res) => {
+      successFn(res.data());
+    })
+    .catch((err) => errorFn(err));
+};
+
+export const getSpecificUsers = (userIDs, successFn, errorFn) => {
+  const db = fire.firestore();
+  console.log("senders: ", userIDs);
+  db.collection("users")
+    .where("id", "in", userIDs)
+    .get()
+    .then((res) => {
+      console.log("length: ", res.docs.length);
+      const data = res.docs.map((i) => {
+        return i.data();
+      });
+      console.log("data: ", data);
+      successFn(data);
+    })
+    .catch((err) => errorFn(err));
+};
+
+//getAllUsers
+export const getAllUser = async () => {
+  const db = fire.firestore();
+  let allUsers = await db.collection("users").get();
+  allUsers = allUsers.docs.map((i) => {
+    return i.data();
+  });
+};
+// const d1 = await getAllUser();
+// console.log("===="+d1)
+// getAllUser().then((data)=>{
+//   console.log("===="+data)
+// })
 module.exports = router;
