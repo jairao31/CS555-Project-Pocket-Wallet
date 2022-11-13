@@ -229,29 +229,34 @@ router.get("/logout/:userId", async (req, res) => {
 
 
 router.post("/splitMoney", async (req, res) => {
-  const { sender_id, tag } = req.body;
-  let totalMoney = 0;
-  let noOfChildren = 0;
+  const { sender_id, receiver_ids, amount, timestamp, state, tag } = req.body;
+  totalMoney = 0;
+  noOfChildren = 0;
   let sender_name = "";
   const hash = new Map();
-  const userRef = userCollection();
-  await userRef.get().then((snapshot) => {
-    //console.log(snapshot.val());
-    for (let key in snapshot.val()) {
-      hash.set(snapshot.val()[key]["name"], snapshot.val()[key]);
-      if (key === sender_id) {
-        totalMoney = snapshot.val()[key]["wallet"];
-        noOfChildren = snapshot.val()[key]["children"].length;
-        sender_name = snapshot.val()[key]["name"];
+
+  userCollection().on(
+    "value",
+    (snapshot) => {
+      for (let key in snapshot.val()) {
+        hash.set(snapshot.val()[key]["name"], snapshot.val()[key]);
+
+        if (key === sender_id) {
+          totalMoney = snapshot.val()[key]["wallet"];
+          noOfChildren = snapshot.val()[key]["children"].length;
+          sender_name = snapshot.val()[key]["name"];
+        }
       }
+    },
+    (errorObject) => {
+      res.status(500).send(errorObject);
     }
-  });
+  );
+
   parentObj = hash.get(sender_name);
   lstOfChildren = parentObj["children"];
-  if (totalMoney < 1) {
-    res.status(500).send("Not Enough Money!");
-  }
   let each = totalMoney / noOfChildren;
+
   for (let child in lstOfChildren) {
     let obj = hash.get(lstOfChildren[child]);
     obj["wallet"] += each;
@@ -259,12 +264,13 @@ router.post("/splitMoney", async (req, res) => {
       if (error) {
         res.status(500).json({ error: " " });
       } else {
-        //res.json(obj);
+        res.json(obj);
       }
     });
   }
+
   parentObj["wallet"] = 0;
-  await userCollection()
+  userCollection()
     .orderByChild("id")
     .equalTo(parentObj["id"])
     .once("value", (snapshot) => {
@@ -272,7 +278,7 @@ router.post("/splitMoney", async (req, res) => {
         if (error) {
           res.status(500).json({ error: " " });
         } else {
-          //res.json(parentObj);
+          res.json(parentObj);
         }
       });
     });
@@ -288,15 +294,15 @@ router.post("/splitMoney", async (req, res) => {
       state: "Done",
       tag: tag,
     };
-    await transactionCollection(v4()).set(transactionData, (error) => {
+    console.log(sender_id);
+    transactionCollection(v4()).set(transactionData, (error) => {
       if (error) {
         res.status(500).json({ error: " " });
       } else {
-        //res.json(transactionData);
+        res.json(transactionData);
       }
     });
   }
-  res.send("Successfull!");
 });
 
 router.post("/allocateMoney", async (req, res) => {
@@ -306,27 +312,34 @@ router.post("/allocateMoney", async (req, res) => {
   let sender_name = "";
   const hash = new Map();
   try {
-    const userRef = userCollection();
-    await userRef.get().then((snapshot) => {
-      for (let key in snapshot.val()) {
-        hash.set(snapshot.val()[key]["name"], snapshot.val()[key]);
-        if (key === sender_id) {
-          totalMoney = snapshot.val()[key]["wallet"];
-          noOfChildren = snapshot.val()[key]["children"].length;
-          if (totalMoney < amount * noOfChildren) {
-            res.status(500).send("Not Enough Money!");
-            return;
+    userCollection().on(
+      "value",
+      (snapshot) => {
+        for (let key in snapshot.val()) {
+          hash.set(snapshot.val()[key]["name"], snapshot.val()[key]);
+
+          if (key === sender_id) {
+            totalMoney = snapshot.val()[key]["wallet"];
+
+            noOfChildren = snapshot.val()[key]["children"].length;
+            if (totalMoney < amount * noOfChildren) {
+              res.status(500).send("Not Enough Money!");
+            }
+            sender_name = snapshot.val()[key]["name"];
           }
-          sender_name = snapshot.val()[key]["name"];
         }
+      },
+      (errorObject) => {
+        res.status(500).send(errorObject);
       }
-    });
+    );
+
     parentObj = hash.get(sender_name);
     lstOfChildren = childrenNames;
     for (let child in lstOfChildren) {
       let obj = hash.get(lstOfChildren[child]);
       obj["wallet"] += amount;
-      await userCollection(obj["id"]).update(obj, (error) => {
+      userCollection(obj["id"]).update(obj, (error) => {
         if (error) {
           res.status(500).json({ error: " " });
         } else {
@@ -335,7 +348,7 @@ router.post("/allocateMoney", async (req, res) => {
       });
     }
     parentObj["wallet"] -= lstOfChildren.length * amount;
-    await userCollection()
+    userCollection()
       .orderByChild("id")
       .equalTo(parentObj["id"])
       .once("value", (snapshot) => {
@@ -360,7 +373,7 @@ router.post("/allocateMoney", async (req, res) => {
         tag: tag,
       };
       console.log(sender_id);
-      await transactionCollection(v4()).set(transactionData, (error) => {
+      transactionCollection(v4()).set(transactionData, (error) => {
         if (error) {
           res.status(500).json({ error: " " });
         } else {
