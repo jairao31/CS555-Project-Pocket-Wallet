@@ -1,0 +1,21 @@
+@media (max-width: 560px) {
+  .brand-name-ress {
+    display: none;
+  }
+}
+
+.bg-primary {
+  background-color: #7895b2 !important;
+}
+.brand-name-ress {
+  /* border: 2px solid #e38a55 !important ; */
+  box-shadow: -5px -5px 30px 5px #e8dfca, 5px 5px 30px -5px #ae4825;
+  border-radius: 4px;
+  padding: 2px;
+  background-color: white;
+  color: #ae4825;
+}
+.navbar {
+  position: relative;
+  z-index: 1;
+}
