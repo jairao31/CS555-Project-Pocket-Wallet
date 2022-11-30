@@ -46,7 +46,7 @@ export const requestMoney = (
     .catch((err) => errorFn(err));
 };
 
-export const allocateMoney = async (amount, successFn) => {
+export const allocateMoney = async (amount, category, successFn) => {
   const db = fire.firestore();
   let userId = fire.auth().currentUser.uid;
   let len = 0;
@@ -60,6 +60,20 @@ export const allocateMoney = async (amount, successFn) => {
         len = childIds.length;
         for (let i = 0; i < childIds.length; i++) {
           let child = childIds[i];
+          let tranData = {
+            sender_id: userId,
+            receiver_id: child,
+            amount: amount,
+            timestamp: new Date(),
+            state: "Pending",
+            category: category,
+          };
+
+          await db.collection("transactions")
+          .add(tranData)
+          // .then((res) => successFn(res))
+          // .catch((err) => errorFn(err));
+
           await db
             .collection("users")
             .doc(child)
@@ -97,7 +111,7 @@ export const allocateMoney = async (amount, successFn) => {
 };
 //allocateMoney([1,2], 30, "asd");
 
-export const splitMoney = async (amount, successFn) => {
+export const splitMoney = async (amount,category, successFn) => {
   const db = fire.firestore();
   let userId = fire.auth().currentUser.uid;
   let len = 0;
@@ -111,6 +125,19 @@ export const splitMoney = async (amount, successFn) => {
         len = childIds.length;
         for (let i = 0; i < childIds.length; i++) {
           let child = childIds[i];
+
+          let tranData = {
+            sender_id: userId,
+            receiver_id: child,
+            amount: amount,
+            timestamp: new Date(),
+            state: "Pending",
+            category: category,
+          };
+
+          await db.collection("transactions")
+          .add(tranData)
+
           await db
             .collection("users")
             .doc(child)
