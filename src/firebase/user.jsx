@@ -197,7 +197,7 @@ export const createChild = (
           const childData = {
             name: fullName,
             email: email,
-            // children: [],
+            children: [],
             wallet: 0,
             isParent: false
           };
