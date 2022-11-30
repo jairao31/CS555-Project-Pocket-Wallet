@@ -314,10 +314,8 @@ export const getAllTransactions = async (pId) => {
       res.push({ ...i.data(), id: i.id });
     }
   });
-  //console.log("RES:-" + res);
   return res;
 };
-
 
 export const getAllTransactionsForChild = async (cId) => {
   //console.log("iddddddd", pId);
@@ -330,7 +328,7 @@ export const getAllTransactionsForChild = async (cId) => {
       res.push({ ...i.data(), id: i.id });
     }
   });
-  //console.log("RES:-" + res);
+
   return res;
 };
 
