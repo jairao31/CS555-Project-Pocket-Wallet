@@ -33,6 +33,7 @@ export const FBsignup = ({ email, password, fullName }, successFn, errorFn) => {
     email: email,
     children: [],
     wallet: 0,
+    isParent: true
   };
   //Random Number Gen Logic between 1 to 9 for DP
   const db = fire.firestore();
@@ -196,8 +197,9 @@ export const createChild = (
           const childData = {
             name: fullName,
             email: email,
-            children: [],
+            // children: [],
             wallet: 0,
+            isParent: false
           };
 
           db.collection("users")
