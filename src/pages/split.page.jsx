@@ -84,6 +84,7 @@ export default function SplitMoneyV() {
             onClick={() => {
               splitMoney(
                 amount,
+                optionType,
                 (s) => {
                   // console.log("amount split successfully");
                   alert(

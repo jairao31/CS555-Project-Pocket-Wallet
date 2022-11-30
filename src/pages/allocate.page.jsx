@@ -84,6 +84,7 @@ export default function VasooliV() {
             onClick={() => {
               allocateMoney(
                 amount,
+                optionType,
                 (s) => {
                   // console.log("amount allocated successfully");
                   alert("Amount allocated successfully to all your childrens");
