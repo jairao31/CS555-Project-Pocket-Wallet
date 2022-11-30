@@ -58,7 +58,7 @@ const App = () => {
   };
 
   const show = () => {
-    // console.log(user);
+     console.log(user);
   };
 
   const cleanuser = () => {
@@ -75,7 +75,7 @@ const App = () => {
         setuser(user);
         setdp(parseInt(user.photoURL));
         setloggedin(true);
-        //        console.log(user);
+        console.log(user);
         //Checkins for Balance Realtime
         fire
           .firestore()
@@ -85,7 +85,7 @@ const App = () => {
             if (snap.data()) setBalance(snap.data().balance);
           });
       } else {
-        //console.log("NO user AUth Change");
+        console.log("NO user AUth Change");
       }
     });
 
