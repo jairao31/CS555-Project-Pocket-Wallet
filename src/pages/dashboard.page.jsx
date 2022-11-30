@@ -218,7 +218,7 @@ export default function DashboardV() {
               cursorColor="#3F3D56"
               multiText={[
                 `Welcome back, ${userObj.name} !!!`,
-                `You are a ${userType} User`,
+                // `You are a ${userType} User`,
               ]}
               multiTextLoop={true}
               multiTextDelay={1000}

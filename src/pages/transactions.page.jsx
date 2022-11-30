@@ -111,31 +111,6 @@ export default function TransactionsV() {
           State: element.state,
         });
       });
-
-      // await Promise.all(
-      //   pd.map(async (element) => {
-      //     await getUserDataForName(element.sender_id).then((reso) => {
-      //       if (reso != null) {
-      //         const dateFormat = new Date(1970, 0, 1);
-      //         dateFormat.setSeconds(element.timestamp.seconds);
-      //         const myDate =
-      //           dateFormat.getMonth() +
-      //           1 +
-      //           "/" +
-      //           dateFormat.getDate() +
-      //           "/" +
-      //           dateFormat.getFullYear();
-      //         graphData.push({
-      //           Date: myDate,
-      //           category: element.category,
-      //           Amount: element.amount,
-      //           Child: reso.name,
-      //           State: element.state,
-      //         });
-      //       }
-      //     });
-      //   })
-      // );
       setAllTransChild(graphDataChild);
     }
     getmyTransactionsChild();
