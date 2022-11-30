@@ -22,7 +22,7 @@ export default function MyChild() {
       (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setIsParent(true);
         } else {
           setIsParent(false);
@@ -57,9 +57,9 @@ export default function MyChild() {
 
   return (
     <Fragment>
+      <h3>My Children</h3>
       {isParent === true ? (
         <>
-          <h3>List Of My Child</h3>
           <div className="col" style={{ marginBottom: "7px" }}>
             {childArr &&
               childArr.length > 0 &&
@@ -81,7 +81,9 @@ export default function MyChild() {
           </Link>
         </>
       ) : (
-        <div>child logged in....</div>
+        <div>
+          <p>You do not have access to this page</p>
+        </div>
       )}
     </Fragment>
   );

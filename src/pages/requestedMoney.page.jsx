@@ -48,7 +48,7 @@ export default function RequestedMoneyV() {
       async (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setIsParent(true);
           let allReq = await getTransactionsById(user.uid);
           // console.log("all reqqqqqqq", allReq);

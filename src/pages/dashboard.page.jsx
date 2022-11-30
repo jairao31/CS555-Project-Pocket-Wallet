@@ -16,6 +16,7 @@ export default function DashboardV() {
   const [allUser, setAllUser] = useState([]);
   const [userObj, setUserObj] = useState({});
   const [userType, setUserType] = useState("");
+  const [isParent, setIsParent] = useState(false);
   const [loading, setloading] = useState(true);
   const [amount, setAmount] = useState(0);
 
@@ -38,7 +39,7 @@ export default function DashboardV() {
       (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setUserType("Parent");
         } else {
           setUserType("Child");

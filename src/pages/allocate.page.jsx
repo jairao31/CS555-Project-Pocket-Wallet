@@ -29,7 +29,7 @@ export default function VasooliV() {
       (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setIsParent(true);
         } else {
           setIsParent(false);
@@ -54,70 +54,55 @@ export default function VasooliV() {
   return (
     <Fragment>
       <h3>Allocate Money</h3>
-      <div className="row" style={{ marginBottom: "7px" }}>
-        {isParent === true ? (
-          <div className="col-6 col-sm-6 col-md-6">
-            {/* <div>Enter amount</div> */}
-            {/* <Form.Select
-              className="custom-select w-100"
-              value={filter}
-              // onChange={(e) => setfilter(e.target.value)}
-              aria-label="Default select example"
-            >
-              {userObj.children?.map((ch, idx) => (
-                <option value={ch} key={idx}>
-                  {ch}
-                </option>
-              ))}
-            </Form.Select> */}
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Amount"
-              onChange={(e) => setAmount(e.target.value)}
-            ></input>
-            <Form.Select
-              className="custom-select w-100"
-              value={optionType}
-              onChange={(e) => setOptionType(e.target.value)}
-              aria-label="Default select example"
-            >
-              <option value="" disabled selected>
-                Select an Option
-              </option>
-              <option value="Food">Food</option>
-              <option value="Fees">Fees</option>
-              <option value="Commute">Commute</option>
-              <option value="Stationary">Stationary</option>
-              <option value="Medicine">Medicine</option>
-              <option value="Bill">Bill</option>
-              <option value="Other">Other</option>
-            </Form.Select>
-            <button
-              className="btn btn-outline-info mx-1"
-              onClick={() => {
-                allocateMoney(
-                  amount,
-                  (s) => {
-                    // console.log("amount allocated successfully");
-                    alert(
-                      "Amount allocated successfully to all your childrens"
-                    );
-                    history.push("/");
-                  },
-                  (e) => {
-                    console.log("req failed");
-                  }
-                );
-              }}
-            >
-              submit
-            </button>
-          </div>
-        ) : (
-          <div>child logged in</div>
-        )}
-      </div>
+      {isParent === true ? (
+        <div className="col-6 col-sm-6 col-md-6">
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Amount"
+            onChange={(e) => setAmount(e.target.value)}
+          ></input>
+          <Form.Select
+            className="custom-select w-100"
+            value={optionType}
+            onChange={(e) => setOptionType(e.target.value)}
+            aria-label="Default select example"
+          >
+            <option value="" disabled selected>
+              Select an Option
+            </option>
+            <option value="Food">Food</option>
+            <option value="Fees">Fees</option>
+            <option value="Commute">Commute</option>
+            <option value="Stationary">Stationary</option>
+            <option value="Medicine">Medicine</option>
+            <option value="Bill">Bill</option>
+            <option value="Other">Other</option>
+          </Form.Select>
+          <button
+            className="btn btn-outline-info mx-1"
+            onClick={() => {
+              allocateMoney(
+                amount,
+                (s) => {
+                  // console.log("amount allocated successfully");
+                  alert("Amount allocated successfully to all your childrens");
+                  history.push("/");
+                },
+                (e) => {
+                  console.log("req failed");
+                }
+              );
+            }}
+          >
+            submit
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p>You do not have access to this page</p>
+        </div>
+      )}
     </Fragment>
   );
 }

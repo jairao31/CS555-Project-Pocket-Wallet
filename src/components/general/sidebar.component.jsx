@@ -25,7 +25,7 @@ export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
       (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setIsParent(true);
         } else {
           setIsParent(false);

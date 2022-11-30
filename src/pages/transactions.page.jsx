@@ -39,7 +39,7 @@ export default function TransactionsV() {
       (s) => {
         let userD = s;
         setUserObj(userD);
-        if (userD.children.length) {
+        if (userD.isParent === true) {
           setIsParent(true);
         } else {
           setIsParent(false);
