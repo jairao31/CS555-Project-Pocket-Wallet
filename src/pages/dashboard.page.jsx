@@ -249,7 +249,7 @@ export default function DashboardV() {
                 addMoney(
                   amount,
                   (s) => {
-                    console.log("Money added to your wallet successfully");
+                    // console.log("Money added to your wallet successfully");
                     alert("Money added to your wallet successfully");
                     history.push("/");
                     setAmount(0);

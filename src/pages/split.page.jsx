@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { getVasooliByFilter, allocateMoney } from "./../firebase/vasooli";
+import { getVasooliByFilter, splitMoney } from "./../firebase/vasooli";
 // import fire from "./../firebase/fire";
 import Vasoolicard from "./../components/allocateMoney/vasoolicard";
 import Empty from "./../components/general/empty.component";
 import Form from "react-bootstrap/Form";
 import fire from "../firebase/fire";
 import { getUserData } from "../firebase/user";
-export default function VasooliV() {
+export default function SplitMoneyV() {
   // const [filter, setfilter] = useState("ALL");
   const [SendToCardFilter, setSendToCardFilter] = useState("ALL");
   const [VasooliArr, setVasooliArr] = useState([]);
@@ -45,31 +45,18 @@ export default function VasooliV() {
     getDataFromFB();
   }, []);
 
-  // console.log("allo------", isParent, userObj);
-  // console.log("amount_________", amount);
-  // console.log("type____________", optionType);
+  //   console.log("allo------", isParent, userObj);
+  //   console.log("amount_________", amount);
+  //   console.log("type____________", optionType);
 
   const history = useHistory();
 
   return (
     <Fragment>
-      <h3>Allocate Money</h3>
+      <h3>Split Money</h3>
       <div className="row" style={{ marginBottom: "7px" }}>
         {isParent === true ? (
           <div className="col-6 col-sm-6 col-md-6">
-            {/* <div>Enter amount</div> */}
-            {/* <Form.Select
-              className="custom-select w-100"
-              value={filter}
-              // onChange={(e) => setfilter(e.target.value)}
-              aria-label="Default select example"
-            >
-              {userObj.children?.map((ch, idx) => (
-                <option value={ch} key={idx}>
-                  {ch}
-                </option>
-              ))}
-            </Form.Select> */}
             <input
               type="number"
               className="form-control"
@@ -96,12 +83,12 @@ export default function VasooliV() {
             <button
               className="btn btn-outline-info mx-1"
               onClick={() => {
-                allocateMoney(
+                splitMoney(
                   amount,
                   (s) => {
-                    // console.log("amount allocated successfully");
+                    // console.log("amount split successfully");
                     alert(
-                      "Amount allocated successfully to all your childrens"
+                      "Amount has been split successfully to all your childrens"
                     );
                     history.push("/");
                   },

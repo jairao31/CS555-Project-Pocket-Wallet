@@ -21,7 +21,7 @@ export default function Vasoolicard({
         //console.log(res);
       },
       (err) => {
-        console.log(err);
+        // console.log(err);
       }
     );
     //UI updates

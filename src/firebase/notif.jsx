@@ -19,12 +19,12 @@ export const getNotif = (email, successFn, errorFn) => {
           res1.forEach((doc1) => {
             Arr.push({ ...doc1.data(), ["id"]: doc1.id });
           });
-          console.log(Arr);
+          // console.log(Arr);
 
           res2.forEach((doc2) => {
             Arr.push(doc2.data());
           });
-          console.log(Arr);
+          // console.log(Arr);
 
           successFn(Arr);
         })

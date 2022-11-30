@@ -53,7 +53,7 @@ export default function MyChild() {
     });
   }, [userObj]);
 
-  console.log(childArr);
+  // console.log(childArr);
 
   return (
     <Fragment>

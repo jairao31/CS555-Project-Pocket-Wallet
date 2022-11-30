@@ -31,12 +31,15 @@ import RequestedMoneyV from "./pages/requestedMoney.page";
 import ProfileV from "./pages/profile.page";
 import TransactionsV from "./pages/transactions.page";
 import AllocateV from "./pages/allocate.page";
+import SplitMoneyV from "./pages/split.page";
 import LoginV from "./pages/login.page";
 import SignupV from "./pages/signup.page";
 import Notifpage from "./pages/notif.page";
 import myChild from "./pages/myChild";
 //Firebase import
 import fire from "./firebase/fire";
+import { allocateMoney } from "./firebase/vasooli";
+
 const mql = window.matchMedia(`(min-width: 810px)`);
 const App = () => {
   const [dock, setdock] = useState(mql.matches);
@@ -55,7 +58,7 @@ const App = () => {
   };
 
   const show = () => {
-    console.log(user);
+    // console.log(user);
   };
 
   const cleanuser = () => {
@@ -170,6 +173,13 @@ const App = () => {
                 <Route path="/allocate" component={AllocateV} />
               ) : (
                 <Redirect from="/allocate" to="/login" />
+              )}
+            </Route>
+            <Route path="/split">
+              {loggedin ? (
+                <Route path="/split" component={SplitMoneyV} />
+              ) : (
+                <Redirect from="/split" to="/login" />
               )}
             </Route>
             <Route path="/profile">

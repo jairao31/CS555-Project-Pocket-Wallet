@@ -1,8 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { imgArr } from "./../../data/userimages";
 import { FBlogout } from "./../../firebase/user";
 import { Button } from "react-bootstrap";
+import fire from "../../firebase/fire";
+import { getUserData } from "./../../firebase/user";
 import "./sidebar.style.css";
 const IconStyling = {
   fontSize: "25px",
@@ -11,6 +13,34 @@ const IconStyling = {
 
 export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
   const [select, setSelect] = useState("");
+  const [userObj, setUserObj] = useState({});
+  const [isParent, setIsParent] = useState(false);
+  const [loading, setloading] = useState(true);
+
+  const getDataFromFB = () => {
+    setloading(true);
+    let user = fire.auth().currentUser;
+    getUserData(
+      user?.uid,
+      (s) => {
+        let userD = s;
+        setUserObj(userD);
+        if (userD.children.length) {
+          setIsParent(true);
+        } else {
+          setIsParent(false);
+        }
+      },
+      (err) => {
+        // console.log(err);
+      }
+    );
+  };
+
+  useEffect(() => {
+    getDataFromFB();
+  }, []);
+
   const logout = () => {
     FBlogout(
       () => {
@@ -20,10 +50,13 @@ export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
       },
       () => {
         //Error Function
-        console.log("Error Occured");
+        // console.log("Error Occured");
       }
     );
   };
+
+  // console.log("isparernt check", isParent, userObj);
+
   return (
     <div
       className="card"
@@ -118,6 +151,7 @@ export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
                   <strong>Transactions</strong>
                 )}
               </Link>
+              {/* {isParent === true && ( */}
               <Link
                 to="/myChild"
                 className="list-group-item"
@@ -141,6 +175,8 @@ export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
                   <strong>My Child</strong>
                 )}
               </Link>
+              {/* )} */}
+              {/* {isParent === true && ( */}
               <Link
                 to="/allocate"
                 className="list-group-item"
@@ -164,6 +200,34 @@ export default function SidebarV({ control, cleanuser, user, loggedin, dp }) {
                   <strong>Allocate Money</strong>
                 )}
               </Link>
+              {/* )} */}
+
+              {/* {isParent === true && ( */}
+              <Link
+                to="/split"
+                className="list-group-item"
+                onClick={() => {
+                  control(false);
+                  setSelect("split");
+                }}
+              >
+                <i className="fa fa-handshake-o" style={IconStyling}></i>
+                {select === "split" ? (
+                  <strong
+                    style={{
+                      color: "#ae4825",
+                      textShadow:
+                        "0 0 20px #ae4825,0 0 80px #ae4825, 0 0 90px #ae4825, 0 0 100px #ae4825,   0 0 150px #ae4825",
+                    }}
+                  >
+                    Split Money
+                  </strong>
+                ) : (
+                  <strong>Split Money</strong>
+                )}
+              </Link>
+              {/* )} */}
+
               <Link
                 to="/requestedMoney"
                 className="list-group-item"

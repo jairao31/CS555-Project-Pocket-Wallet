@@ -3,6 +3,7 @@ import axios from "axios";
 import firebase1 from "firebase/app";
 import { data } from "jquery";
 import { allocateMoney } from "./vasooli";
+var rateLimit = require("function-rate-limit");
 const firebase = fire;
 
 //Function to Login the Exsiting user
@@ -41,14 +42,14 @@ export const FBsignup = ({ email, password, fullName }, successFn, errorFn) => {
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      console.log("user created");
+      // console.log("user created");
       let user = firebase.auth().currentUser;
       // Pushing to Firestore
       db.collection("users")
         .doc(user.uid)
         .set({ id: user.uid, ...userData })
         .then(() => {
-          console.log("Pushed to Firestore");
+          // console.log("Pushed to Firestore");
         })
         .catch((er) => console.log(er));
     })
@@ -204,7 +205,7 @@ export const createChild = (
             .doc(firebase.auth().currentUser.uid)
             .set({ id: firebase.auth().currentUser.uid, ...childData })
             .then(() => {
-              console.log("Pushed to Firestore");
+              // console.log("Pushed to Firestore");
             })
             .catch((er) => console.log(er));
         })
@@ -246,16 +247,16 @@ export const getUserDataForName = async (uid) => {
 
 export const getSpecificUsers = (userIDs, successFn, errorFn) => {
   const db = fire.firestore();
-  console.log("senders: ", userIDs);
+  // console.log("senders: ", userIDs);
   db.collection("users")
     .where("id", "in", userIDs)
     .get()
     .then((res) => {
-      console.log("length: ", res.docs.length);
+      // console.log("length: ", res.docs.length);
       const data = res.docs.map((i) => {
         return i.data();
       });
-      console.log("data: ", data);
+      // console.log("data: ", data);
       successFn(data);
     })
     .catch((err) => errorFn(err));
@@ -302,6 +303,7 @@ export const getTransactionsById = async (pId) => {
 };
 
 export const getAllTransactions = async (pId) => {
+  //console.log("iddddddd", pId);
   const db = fire.firestore();
   let data = await db.collection("transactions").get();
 
@@ -311,6 +313,23 @@ export const getAllTransactions = async (pId) => {
       res.push({ ...i.data(), id: i.id });
     }
   });
+  //console.log("RES:-" + res);
+  return res;
+};
+
+
+export const getAllTransactionsForChild = async (cId) => {
+  //console.log("iddddddd", pId);
+  const db = fire.firestore();
+  let data = await db.collection("transactions").get();
+
+  let res = [];
+  data.docs.forEach((i) => {
+    if (i.data().sender_id === cId) {
+      res.push({ ...i.data(), id: i.id });
+    }
+  });
+  //console.log("RES:-" + res);
   return res;
 };
 

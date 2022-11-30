@@ -93,7 +93,7 @@ export default function ProfileV() {
     }
   }, [success]);
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <Fragment>

@@ -33,7 +33,7 @@ export default function NewAllocate() {
         user.email,
         vasooli,
         (res) => {
-          console.log(res);
+          // console.log(res);
           setsuccess(true);
           setvasooli({
             to: "",
@@ -45,7 +45,7 @@ export default function NewAllocate() {
           });
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
           seterrorBody(err);
           seterror(true);
         }
@@ -105,7 +105,7 @@ export default function NewAllocate() {
           (err) => {
             seterror(true);
             seterrorBody(err);
-            console.log(err);
+            // console.log(err);
           }
         );
       } else {
