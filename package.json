@@ -13,6 +13,7 @@
     "cra-template": "1.0.3",
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
+    "function-rate-limit": "^1.1.0",
     "jquery": "^3.5.1",
     "mdbreact": "^4.27.0",
     "popper": "^1.0.1",

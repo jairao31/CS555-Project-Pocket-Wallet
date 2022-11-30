@@ -3,7 +3,6 @@ import axios from "axios";
 import firebase1 from "firebase/app";
 import { data } from "jquery";
 import { allocateMoney } from "./vasooli";
-var rateLimit = require("function-rate-limit");
 const firebase = fire;
 
 //Function to Login the Exsiting user
