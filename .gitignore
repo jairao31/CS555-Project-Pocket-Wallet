@@ -1,8 +1,5 @@
 # Dependency directory
 node_modules
 
-#env
-.env
-
 #ds_store
 .DS_Store
