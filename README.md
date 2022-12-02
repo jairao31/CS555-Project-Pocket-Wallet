@@ -1,7 +1,11 @@
-
 # CS555_AgileProject_Team13
 # Pocket-Wallet 💰
 ###### Pocket-Wallet is a parent-child based web application for pocket money management.
+
+## Steps to run the application
+
+1. npm i
+2. npm start
 
 ## Features:
 - Parent Registeration (Sign-up/Sign-In with google)
@@ -26,7 +30,7 @@
 4. Accept the request and send the requested money -> as soon as parent accept money update transactions collection.
 5. Delete childs account, edit/update his/her details
 - Technologies used:
-1. Next.js: Front-end framework
+1. React.js: Front-end framework
 2. Node.js: Backend
-3. Google Firebase: Authentication 
-4. Realtime-Database
+3. Authentication: Google Firebase Auth 
+4. Database: Firestore-Database
