@@ -225,7 +225,7 @@ export default function DashboardV() {
               typeSpeed={30}
             />
 
-            <h3>Your Wallet Balance is {userObj.wallet}</h3>
+            <h3>Your Wallet Balance is ${userObj.wallet}</h3>
 
             {/* <h2>John Doe</h2>
             <h3>Web Designer</h3>
